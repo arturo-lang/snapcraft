@@ -29,36 +29,21 @@ apps:
       - x11
 
 parts:
-  arturo-amd64:
-    plugin: dump
-    source: https://github.com/arturo-lang/arturo/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/arturo-${SNAPCRAFT_PROJECT_VERSION}-linux-amd64.zip
-    source-type: zip
-    organize:
-      arturo: bin/arturo
+  arturo:
+    plugin: nil
+    override-pull: |
+      if [ "$CRAFT_TARGET_ARCH" = "amd64" ]; then
+        ARCH="amd64"
+      elif [ "$CRAFT_TARGET_ARCH" = "arm64" ]; then
+        ARCH="arm64"
+      fi
+      curl -L -o arturo.zip "https://github.com/arturo-lang/arturo/releases/download/v0.10.0/arturo-0.10.0-linux-${ARCH}.zip"
+      unzip arturo.zip
+    override-build: |
+      mkdir -p $CRAFT_PART_INSTALL/bin
+      cp arturo $CRAFT_PART_INSTALL/bin/
     stage-packages:
       - libgmp10
       - libmpfr6
       - libwebkit2gtk-4.1-0
       - libgtk-3-0
-    build-attributes:
-      - enable-patchelf
-    override-build: |
-      craftctl default
-    build-for: [amd64]
-
-  arturo-arm64:
-    plugin: dump
-    source: https://github.com/arturo-lang/arturo/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/arturo-${SNAPCRAFT_PROJECT_VERSION}-linux-arm64.zip
-    source-type: zip
-    organize:
-      arturo: bin/arturo
-    stage-packages:
-      - libgmp10
-      - libmpfr6
-      - libwebkit2gtk-4.1-0
-      - libgtk-3-0
-    build-attributes:
-      - enable-patchelf
-    override-build: |
-      craftctl default
-    build-for: [arm64]
