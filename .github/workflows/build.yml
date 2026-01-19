@@ -5,17 +5,16 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Cancel previous runs if a new one is triggered
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        architecture: [amd64, arm64]
+        os: [ubuntu-latest, ubuntu-24.04-arm]
     
     steps:
       - name: Checkout code
@@ -28,7 +27,7 @@ jobs:
       - name: Upload snap artifact
         uses: actions/upload-artifact@v4
         with:
-          name: arturo-snap-${{ matrix.architecture }}
+          name: arturo-snap-${{ matrix.os }}
           path: ${{ steps.build.outputs.snap }}
       
       - name: Publish to Snap Store
