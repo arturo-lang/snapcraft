@@ -31,6 +31,9 @@ apps:
 parts:
   arturo:
     plugin: nil
+    build-packages:
+      - unzip
+      - curl
     override-pull: |
       curl -L -o arturo.zip "https://github.com/arturo-lang/arturo/releases/download/v0.10.0/arturo-0.10.0-linux-${CRAFT_ARCH_BUILD_FOR}.zip"
       unzip arturo.zip
