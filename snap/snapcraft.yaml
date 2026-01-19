@@ -32,12 +32,7 @@ parts:
   arturo:
     plugin: nil
     override-pull: |
-      if [ "$CRAFT_TARGET_ARCH" = "amd64" ]; then
-        ARCH="amd64"
-      elif [ "$CRAFT_TARGET_ARCH" = "arm64" ]; then
-        ARCH="arm64"
-      fi
-      curl -L -o arturo.zip "https://github.com/arturo-lang/arturo/releases/download/v0.10.0/arturo-0.10.0-linux-${ARCH}.zip"
+      curl -L -o arturo.zip "https://github.com/arturo-lang/arturo/releases/download/v0.10.0/arturo-0.10.0-linux-${CRAFT_ARCH_BUILD_FOR}.zip"
       unzip arturo.zip
     override-build: |
       mkdir -p $CRAFT_PART_INSTALL/bin
