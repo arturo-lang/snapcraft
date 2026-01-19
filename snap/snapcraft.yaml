@@ -1,0 +1,42 @@
+name: arturo
+base: core22
+version: '0.10.0'
+summary: Simple, expressive & portable programming language
+description: |
+  Arturo is a simple, modern programming language with a focus on
+  simplicity, expressiveness, and portability. It features a clean
+  syntax, powerful metaprogramming capabilities, and minimal dependencies.
+  The language is designed for efficient scripting and supports multiple
+  programming paradigms.
+
+grade: stable
+confinement: strict
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  arturo:
+    command: bin/arturo
+    plugs:
+      - home
+      - network
+      - network-bind
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+
+parts:
+  arturo:
+    plugin: dump
+    source: https://github.com/arturo-lang/arturo/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/arturo-${SNAPCRAFT_PROJECT_VERSION}-linux-$SNAPCRAFT_ARCH_BUILD_FOR.zip
+    source-type: zip
+    organize:
+      arturo: bin/arturo
+    stage-packages:
+      - libgmp10
+      - libmpfr6
+      - libwebkit2gtk-4.1-0
+      - libgtk-3-0
