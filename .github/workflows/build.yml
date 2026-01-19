@@ -1,0 +1,38 @@
+name: Build and Publish Snap
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        architecture: [amd64, arm64]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build snap
+        uses: snapcore/action-build@v1
+        id: build
+        with:
+          architecture: ${{ matrix.architecture }}
+      
+      - name: Upload snap artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: arturo-snap-${{ matrix.architecture }}
+          path: ${{ steps.build.outputs.snap }}
+      
+      - name: Publish to Snap Store
+        if: github.ref == 'refs/heads/main'
+        uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
+        with:
+          snap: ${{ steps.build.outputs.snap }}
+          release: stable
