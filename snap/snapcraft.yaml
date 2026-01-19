@@ -29,9 +29,9 @@ apps:
       - x11
 
 parts:
-  arturo:
+  arturo-amd64:
     plugin: dump
-    source: https://github.com/arturo-lang/arturo/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/arturo-${SNAPCRAFT_PROJECT_VERSION}-linux-$SNAPCRAFT_ARCH_BUILD_FOR.zip
+    source: https://github.com/arturo-lang/arturo/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/arturo-${SNAPCRAFT_PROJECT_VERSION}-linux-amd64.zip
     source-type: zip
     organize:
       arturo: bin/arturo
@@ -40,3 +40,25 @@ parts:
       - libmpfr6
       - libwebkit2gtk-4.1-0
       - libgtk-3-0
+    build-attributes:
+      - enable-patchelf
+    override-build: |
+      craftctl default
+    build-for: [amd64]
+
+  arturo-arm64:
+    plugin: dump
+    source: https://github.com/arturo-lang/arturo/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/arturo-${SNAPCRAFT_PROJECT_VERSION}-linux-arm64.zip
+    source-type: zip
+    organize:
+      arturo: bin/arturo
+    stage-packages:
+      - libgmp10
+      - libmpfr6
+      - libwebkit2gtk-4.1-0
+      - libgtk-3-0
+    build-attributes:
+      - enable-patchelf
+    override-build: |
+      craftctl default
+    build-for: [arm64]
