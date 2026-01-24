@@ -7,7 +7,7 @@
 ![License](https://img.shields.io/github/license/arturo-lang/snapcraft?style=for-the-badge) [![Snap](https://img.shields.io/badge/snap-install-82BEA0?style=for-the-badge&logo=snapcraft)](https://snapcraft.io/arturo)
 
 </div>
-
+ 
 ---
 
 <!--ts-->
